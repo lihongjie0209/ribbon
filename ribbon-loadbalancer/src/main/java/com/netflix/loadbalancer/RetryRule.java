@@ -71,6 +71,7 @@ public class RetryRule extends AbstractLoadBalancerRule {
 	}
 
 	/*
+	添加重试逻辑
 	 * Loop if necessary. Note that the time CAN be exceeded depending on the
 	 * subRule, because we're not spawning additional threads and returning
 	 * early.
@@ -81,15 +82,15 @@ public class RetryRule extends AbstractLoadBalancerRule {
 
 		Server answer = null;
 
-		answer = subRule.choose(key);
+		answer = subRule.choose(key); // 代理类进行逻辑
 
 		if (((answer == null) || (!answer.isAlive()))
-				&& (System.currentTimeMillis() < deadline)) {
+				&& (System.currentTimeMillis() < deadline)) { // 如果没有结果, 并且没有超时
 
 			InterruptTask task = new InterruptTask(deadline
 					- System.currentTimeMillis());
 
-			while (!Thread.interrupted()) {
+			while (!Thread.interrupted()) { // 重试., 如果被中断了, 那就说明超时了
 				answer = subRule.choose(key);
 
 				if (((answer == null) || (!answer.isAlive()))

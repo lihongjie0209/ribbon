@@ -55,7 +55,7 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
         }
 
         Server server = null;
-        int count = 0;
+        int count = 0; // 重试10次
         while (server == null && count++ < 10) {
             List<Server> reachableServers = lb.getReachableServers();
             List<Server> allServers = lb.getAllServers();
@@ -67,7 +67,7 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
                 return null;
             }
 
-            int nextServerIndex = incrementAndGetModulo(serverCount);
+            int nextServerIndex = incrementAndGetModulo(serverCount);// +1并取余
             server = allServers.get(nextServerIndex);
 
             if (server == null) {
@@ -76,7 +76,7 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
                 continue;
             }
 
-            if (server.isAlive() && (server.isReadyToServe())) {
+            if (server.isAlive() && (server.isReadyToServe())) { // 额外判断一下是否可以使用
                 return (server);
             }
 

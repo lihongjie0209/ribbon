@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ * 随机算法
  * A loadbalacing strategy that randomly distributes traffic amongst existing
  * servers.
  * 
@@ -57,7 +58,7 @@ public class RandomRule extends AbstractLoadBalancerRule {
                 return null;
             }
 
-            int index = chooseRandomInt(serverCount);
+            int index = chooseRandomInt(serverCount); // todo 怎么保证随机的索引不越界???
             server = upList.get(index);
 
             if (server == null) {
@@ -70,7 +71,7 @@ public class RandomRule extends AbstractLoadBalancerRule {
                 continue;
             }
 
-            if (server.isAlive()) {
+            if (server.isAlive()) { // 最后再判断一下选择的节点是否可用
                 return (server);
             }
 

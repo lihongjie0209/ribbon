@@ -50,7 +50,7 @@ public class InterruptTask extends TimerTask {
 
 		public void run() {
 				if ((target != null) && (target.isAlive())) {
-						target.interrupt();
+						target.interrupt(); // 到时间中断一下当前线程
 				}
 		}
 } 

@@ -15,11 +15,17 @@ subprojects {
     group = "com.netflix.${githubProjectName}" // TEMPLATE: Set to organization of project
 
     repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/jcenter"
+        }
         jcenter()
     }
 
     if (project.hasProperty('useMavenLocal')) {
         repositories {
+            maven {
+                url "https://maven.aliyun.com/repository/jcenter"
+            }
             mavenLocal()
         }
     }
